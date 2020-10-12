@@ -2,9 +2,10 @@
 
 db.getList();*/
 
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer, AuthenticationError } = require('apollo-server');
 const typeDefs = require('./schema');
 const LaunchAPI = require('./datasources/launch');
+const UserAPI = require('./datasources/user');
 const resolvers = require('./resolvers');
  
 
@@ -12,8 +13,20 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     dataSources: () => ({
-        launchAPI:  new LaunchAPI()
-    })
+        launchAPI:  new LaunchAPI(),
+        userAPI: new UserAPI()
+    }),
+    context : ({req}) => {
+        /*const token = req.headers.authorization || '';
+
+        if(!token) {
+            throw new AuthenticationError( 'You have be logged !!!! ');
+        }*/
+
+        return {
+            req
+        }
+    }
 
  });
 

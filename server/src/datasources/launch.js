@@ -22,10 +22,10 @@ class LaunchAPI extends RESTDataSource {
         const db = client.db('merch');
         const collection = db.collection('launch');
         const response = await collection.findOne({
-            flight_number: launchId
+          flight_number: parseInt(launchId)
         });
 
-        return this.launchReducer(response[0]);
+        return this.launchReducer(response);
     }
 
     getLaunchesByIds({ launchIds }) {
